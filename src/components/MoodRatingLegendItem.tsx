@@ -10,7 +10,7 @@ export function MoodRatingLegendItem(props: MoodRatingLegendItemProps) {
       key={props.rating}
       className={`${moodRatingToBgColor(
         props.rating
-      )} flex-1 py-2 px-1 lg:px-4`}
+      )} flex-1 font-semibold text-center py-2 px-1 lg:px-4`}
     >
       {moodRatingToMoodName(props.rating)}
     </div>
