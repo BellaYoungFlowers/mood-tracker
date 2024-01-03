@@ -23,7 +23,7 @@ function App() {
         <Header />
         <div className="font-semibold space-y-4">
           <h2 className="text-2xl">Legend</h2>
-          <div className="flex flex-col lg:flex-row lg:items-center gap-2 text-center">
+          <div className="flex items-center gap-2 text-center">
             {moodRatingNumbers.map((rating) => (
               <MoodRatingLegendItem key={rating} rating={rating} />
             ))}

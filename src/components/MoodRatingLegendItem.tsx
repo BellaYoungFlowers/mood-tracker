@@ -8,7 +8,9 @@ export function MoodRatingLegendItem(props: MoodRatingLegendItemProps) {
   return (
     <div
       key={props.rating}
-      className={`${moodRatingToBgColor(props.rating)} flex-1 py-2 px-4`}
+      className={`${moodRatingToBgColor(
+        props.rating
+      )} flex-1 py-2 px-1 lg:px-4`}
     >
       {moodRatingToMoodName(props.rating)}
     </div>
