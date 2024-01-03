@@ -1,13 +1,19 @@
 import { createContext, useContext } from "react";
 
-export type YearlyData = Record<number, Record<number, number[]>>;
+export type YearlyData = Record<number, Record<number, Record<number, number>>>;
 
 export type Config = {
   yearlyData: YearlyData;
 };
 
 const defaultConfig: Config = {
-  yearlyData: {},
+  yearlyData: {
+    2024: {
+      0: {
+        0: 3,
+      },
+    },
+  },
 };
 
 const localStorageKey = "config";

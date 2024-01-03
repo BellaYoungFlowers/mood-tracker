@@ -1,14 +1,19 @@
-import { ConfigContext, loadConfig } from "./lib/config";
+import { ConfigContext, loadConfig, saveConfig } from "./lib/config";
 import { monthNumbers } from "./lib/dates";
 import { moodRatingNumbers } from "./lib/mood";
 import "./lib/logger";
 import { Header } from "./components/Header";
 import { MoodRatingLegendItem } from "./components/MoodRatingLegendItem";
 import { MonthlyCalendar } from "./components/MonthlyCalendar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
   const [config, setConfig] = useState(() => loadConfig());
+
+  /* Save config whenever it changes */
+  useEffect(() => {
+    saveConfig(config);
+  }, [config]);
 
   const year = new Date().getFullYear();
 
@@ -24,7 +29,7 @@ function App() {
             ))}
           </div>
         </div>
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {monthNumbers.map((month) => (
             <MonthlyCalendar
               key={`${year}-${month}`}

@@ -1,6 +1,7 @@
 export const moodRatingNumbers = [1, 2, 3, 4, 5] as const;
 
 const moodRatingToBgColorMap: Record<number, string> = {
+  0: "",
   1: "bg-red-500",
   2: "bg-orange-500",
   3: "bg-yellow-500",
