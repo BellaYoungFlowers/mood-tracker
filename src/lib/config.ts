@@ -2,12 +2,24 @@ import { createContext, useContext } from "react";
 
 export type YearlyData = Record<number, Record<number, Record<number, number>>>;
 
+type Mood = { color: string; name: string };
+
+export type MoodData = Array<Mood>;
+
 export type Config = {
   yearlyData: YearlyData;
+  moodData: MoodData;
 };
 
 const defaultConfig: Config = {
   yearlyData: {},
+  moodData: [
+    { color: "#ef4444", name: "Awful" },
+    { color: "#f97316", name: "Bad" },
+    { color: "#eab308", name: "Okay" },
+    { color: "#0ea5e9", name: "Good" },
+    { color: "#22c55e", name: "Great" },
+  ],
 };
 
 const localStorageKey = "config";
@@ -57,12 +69,14 @@ type ConfigContext = {
     rating: number
   ) => void;
   deleteConfigDayRating: (year: number, month: number, day: number) => void;
+  updateConfigMoodColor: (moodIndex: number, hexColor: string) => void;
 };
 
 export const ConfigContext = createContext<ConfigContext>({
   config: defaultConfig,
   upsertConfigDayRating: () => {},
   deleteConfigDayRating: () => {},
+  updateConfigMoodColor: () => {},
 });
 
 export function useConfig() {

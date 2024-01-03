@@ -1,5 +1,4 @@
 import { daysInMonth, monthNumberToName } from "../lib/dates";
-import { moodRatingToBgColor } from "../lib/mood";
 import { useConfig } from "../lib/config";
 import { useState } from "react";
 import { MoodRatingPicker } from "./MoodRatingPicker";
@@ -56,7 +55,10 @@ export function MonthlyCalendar(props: MonthlyCalendarProps) {
       <ol className="grid grid-cols-7 gap-2">
         {dayIndexes.map((dayIndex) => {
           const moodRating = dailyMoodRatings[dayIndex] ?? null;
-          const bgColor = (moodRating && moodRatingToBgColor(moodRating)) ?? "";
+          let bgColor = "";
+          if (moodRating !== null) {
+            bgColor = config.moodData[moodRating].color;
+          }
           const isActive = dayIndex === selectedDayIndex;
           const isActiveStyles =
             "bg-black text-white dark:bg-white dark:text-black";
@@ -65,9 +67,10 @@ export function MonthlyCalendar(props: MonthlyCalendarProps) {
             <li
               key={dayIndex}
               onClick={() => onPickCalendarDay(dayIndex)}
-              className={`${bgColor} aspect-square font-bold  p-1 lg:hover:cursor-pointer lg:hover:scale-105 dark:lg:hover:bg-white dark:lg:hover:text-black lg:hover:bg-black lg:hover:text-white ${
+              className={`aspect-square font-bold  p-1 lg:hover:cursor-pointer lg:hover:scale-105 dark:lg:hover:bg-white dark:lg:hover:text-black lg:hover:bg-black lg:hover:text-white ${
                 isActive && isActiveStyles
               }`}
+              style={{ backgroundColor: bgColor }}
             >
               <span>{dayIndex + 1}</span>
             </li>

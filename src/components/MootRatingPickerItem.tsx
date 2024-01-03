@@ -1,4 +1,4 @@
-import { moodRatingToBgColor, moodRatingToMoodName } from "../lib/mood";
+import { useConfig } from "../lib/config";
 
 type MoodRatingPickerItemProps = {
   rating: number;
@@ -6,15 +6,19 @@ type MoodRatingPickerItemProps = {
 };
 
 export function MoodRatingPickerItem(props: MoodRatingPickerItemProps) {
+  const { config } = useConfig();
+
+  const bgColor = config.moodData[props.rating].color;
+  const moodName = config.moodData[props.rating].name;
+
   return (
     <div
       key={props.rating}
       onClick={props.onClick}
-      className={`${moodRatingToBgColor(
-        props.rating
-      )} flex-1 py-2 px-1 text-center font-semibold lg:cursor-pointer lg:hover:scale-105 transition-all`}
+      className="flex-1 py-2 px-1 text-center font-semibold lg:cursor-pointer lg:hover:scale-105 transition-all"
+      style={{ backgroundColor: bgColor }}
     >
-      {moodRatingToMoodName(props.rating)}
+      {moodName}
     </div>
   );
 }

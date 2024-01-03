@@ -1,12 +1,11 @@
-import "./lib/logger";
 import {
   ConfigContext,
+  MoodData,
   YearlyData,
   loadConfig,
   saveConfig,
 } from "./lib/config";
 import { getCurrentYearNumber, monthNumbers } from "./lib/dates";
-import { moodRatingNumbers } from "./lib/mood";
 import { Header } from "./components/Header";
 import { MoodRatingLegendItem } from "./components/MoodRatingLegendItem";
 import { MonthlyCalendar } from "./components/MonthlyCalendar";
@@ -57,17 +56,35 @@ function App() {
     setConfig({ ...config, yearlyData: newData });
   }
 
+  function updateConfigMoodColor(moodIndex: number, color: string) {
+    const newData: MoodData = config.moodData.map((data, i) =>
+      i === moodIndex ? { ...data, color } : data
+    );
+    setConfig({ ...config, moodData: newData });
+  }
+
   return (
     <ConfigContext.Provider
-      value={{ config, upsertConfigDayRating, deleteConfigDayRating }}
+      value={{
+        config,
+        upsertConfigDayRating,
+        deleteConfigDayRating,
+        updateConfigMoodColor,
+      }}
     >
       <main className="bg-white dark:bg-black text-black dark:text-white space-y-8 p-8 lg:p-16">
         <Header />
         <div className="font-semibold space-y-4">
-          <h2 className="text-2xl">Legend</h2>
+          <h2 className="text-2xl">Edit Colors</h2>
           <div className="flex items-center gap-2 text-center">
-            {moodRatingNumbers.map((rating) => (
-              <MoodRatingLegendItem key={rating} rating={rating} />
+            {[...Array(config.moodData.length).keys()].map((rating, index) => (
+              <MoodRatingLegendItem
+                key={rating}
+                rating={rating}
+                onChangeColor={(color: string) =>
+                  updateConfigMoodColor(index, color)
+                }
+              />
             ))}
           </div>
         </div>
