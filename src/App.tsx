@@ -1,11 +1,18 @@
-import { ConfigContext, loadConfig, saveConfig } from "./lib/config";
-import { monthNumbers } from "./lib/dates";
-import { moodRatingNumbers } from "./lib/mood";
 import "./lib/logger";
+import {
+  ConfigContext,
+  YearlyData,
+  loadConfig,
+  saveConfig,
+} from "./lib/config";
+import { getCurrentYearNumber, monthNumbers } from "./lib/dates";
+import { moodRatingNumbers } from "./lib/mood";
 import { Header } from "./components/Header";
 import { MoodRatingLegendItem } from "./components/MoodRatingLegendItem";
 import { MonthlyCalendar } from "./components/MonthlyCalendar";
 import { useEffect, useState } from "react";
+
+const year = getCurrentYearNumber();
 
 function App() {
   const [config, setConfig] = useState(() => loadConfig());
@@ -15,10 +22,45 @@ function App() {
     saveConfig(config);
   }, [config]);
 
-  const year = new Date().getFullYear();
+  /**
+   *
+   * @param year Year number
+   * @param month 0-indexed month from 0 (January) to 11 (December)
+   * @param day 0-index day of month
+   * @param rating Mood rating
+   */
+  function upsertConfigDayRating(
+    year: number,
+    month: number,
+    day: number,
+    rating: number
+  ) {
+    const newData: YearlyData = { ...config.yearlyData };
+    if (!config.yearlyData[year]) {
+      newData[year] = {
+        [month]: {},
+      };
+    }
+    if (config.yearlyData[year] && !config.yearlyData[year][month]) {
+      newData[year][month] = {};
+    }
+    newData[year][month][day] = rating;
+    setConfig({ ...config, yearlyData: newData });
+  }
+
+  function deleteConfigDayRating(year: number, month: number, day: number) {
+    const newData: YearlyData = { ...config.yearlyData };
+    if (!config.yearlyData[year] || !config.yearlyData[year][month]) {
+      return;
+    }
+    delete newData[year][month][day];
+    setConfig({ ...config, yearlyData: newData });
+  }
 
   return (
-    <ConfigContext.Provider value={{ config, setConfig }}>
+    <ConfigContext.Provider
+      value={{ config, upsertConfigDayRating, deleteConfigDayRating }}
+    >
       <main className="bg-white dark:bg-black text-black dark:text-white space-y-8 p-8 lg:p-16">
         <Header />
         <div className="font-semibold space-y-4">

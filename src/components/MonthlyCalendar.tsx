@@ -1,7 +1,7 @@
 import { daysInMonth, monthNumberToName } from "../lib/dates";
 import { moodRatingToBgColor } from "../lib/mood";
-import { YearlyData, useConfig } from "../lib/config";
-import { useState, useRef } from "react";
+import { useConfig } from "../lib/config";
+import { useState } from "react";
 import { MoodRatingPicker } from "./MoodRatingPicker";
 
 type MonthlyCalendarProps = {
@@ -10,16 +10,12 @@ type MonthlyCalendarProps = {
 };
 
 export function MonthlyCalendar(props: MonthlyCalendarProps) {
-  const { config, setConfig } = useConfig();
-
-  const ratingPickerRef = useRef<HTMLDivElement>(null);
+  const { config, upsertConfigDayRating, deleteConfigDayRating } = useConfig();
 
   const numDaysInMonth = daysInMonth(props.year, props.month);
   const dayIndexes = [...Array(numDaysInMonth).keys()];
 
-  const [dailyMoodRatings, setDailyMoodRatings] = useState<
-    Record<number, number>
-  >(() => {
+  const dailyMoodRatings = (() => {
     if (
       props.year in config.yearlyData &&
       props.month in config.yearlyData[props.year]
@@ -27,7 +23,7 @@ export function MonthlyCalendar(props: MonthlyCalendarProps) {
       return config.yearlyData[props.year][props.month];
     }
     return {};
-  });
+  })();
 
   const [ratingPickerOpen, setRatingPickerOpen] = useState(false);
   const [selectedDayIndex, setSelectedDayIndex] = useState<number>(-1);
@@ -35,33 +31,21 @@ export function MonthlyCalendar(props: MonthlyCalendarProps) {
   function onPickCalendarDay(dayIndex: number) {
     setSelectedDayIndex(dayIndex);
     setRatingPickerOpen(true);
-    if (ratingPickerRef.current) {
-      ratingPickerRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
-    }
+  }
+
+  function clearSelectedState() {
+    setSelectedDayIndex(-1);
+    setRatingPickerOpen(false);
   }
 
   function onPickRating(rating: number) {
-    setDailyMoodRatings((prev) => ({ ...prev, [selectedDayIndex]: rating }));
-    setRatingPickerOpen(false);
-    setSelectedDayIndex(-1);
+    clearSelectedState();
+    upsertConfigDayRating(props.year, props.month, selectedDayIndex, rating);
+  }
 
-    const newData: YearlyData = { ...config.yearlyData };
-    if (!config.yearlyData[props.year]) {
-      newData[props.year] = {
-        [props.month]: {},
-      };
-    }
-    if (
-      config.yearlyData[props.year] &&
-      !config.yearlyData[props.year][props.month]
-    ) {
-      newData[props.year][props.month] = {};
-    }
-    newData[props.year][props.month][selectedDayIndex] = rating;
-    setConfig({ ...config, yearlyData: newData });
+  function onClearRating() {
+    clearSelectedState();
+    deleteConfigDayRating(props.year, props.month, selectedDayIndex);
   }
 
   return (
@@ -90,8 +74,16 @@ export function MonthlyCalendar(props: MonthlyCalendarProps) {
           );
         })}
       </ol>
-      <div ref={ratingPickerRef}>
+      <div className="space-y-2">
         <MoodRatingPicker open={ratingPickerOpen} onPickRating={onPickRating} />
+        {ratingPickerOpen && (
+          <button
+            className="font-semibold bg-red-600 text-white w-full py-2 lg:hover:scale-105 transition-all"
+            onClick={onClearRating}
+          >
+            Clear rating
+          </button>
+        )}
       </div>
     </div>
   );

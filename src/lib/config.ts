@@ -50,12 +50,19 @@ export function loadConfig(): Config {
 
 type ConfigContext = {
   config: Config;
-  setConfig: (config: Config) => void;
+  upsertConfigDayRating: (
+    year: number,
+    month: number,
+    day: number,
+    rating: number
+  ) => void;
+  deleteConfigDayRating: (year: number, month: number, day: number) => void;
 };
 
 export const ConfigContext = createContext<ConfigContext>({
   config: defaultConfig,
-  setConfig: () => {},
+  upsertConfigDayRating: () => {},
+  deleteConfigDayRating: () => {},
 });
 
 export function useConfig() {

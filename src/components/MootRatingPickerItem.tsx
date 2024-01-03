@@ -12,7 +12,7 @@ export function MoodRatingPickerItem(props: MoodRatingPickerItemProps) {
       onClick={props.onClick}
       className={`${moodRatingToBgColor(
         props.rating
-      )} flex-1 py-2 px-1 text-center font-semibold lg:cursor-pointer lg:hover:scale-105`}
+      )} flex-1 py-2 px-1 text-center font-semibold lg:cursor-pointer lg:hover:scale-105 transition-all`}
     >
       {moodRatingToMoodName(props.rating)}
     </div>
