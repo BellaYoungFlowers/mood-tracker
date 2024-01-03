@@ -50,9 +50,14 @@ export function MonthlyCalendar(props: MonthlyCalendarProps) {
 
     const newData: YearlyData = { ...config.yearlyData };
     if (!config.yearlyData[props.year]) {
-      newData[props.year] = {};
+      newData[props.year] = {
+        [props.month]: {},
+      };
     }
-    if (!config.yearlyData[props.year][props.month]) {
+    if (
+      config.yearlyData[props.year] &&
+      !config.yearlyData[props.year][props.month]
+    ) {
       newData[props.year][props.month] = {};
     }
     newData[props.year][props.month][selectedDayIndex] = rating;

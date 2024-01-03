@@ -7,13 +7,7 @@ export type Config = {
 };
 
 const defaultConfig: Config = {
-  yearlyData: {
-    2024: {
-      0: {
-        0: 3,
-      },
-    },
-  },
+  yearlyData: {},
 };
 
 const localStorageKey = "config";
