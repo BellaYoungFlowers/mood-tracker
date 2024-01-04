@@ -1,18 +1,12 @@
 import { useState } from "react";
-import {
-  getCurrentMonthNumber,
-  getCurrentYearNumber,
-  daysInMonth,
-  monthNumberToName,
-  monthNumbers,
-} from "../lib/dates";
+import { daysInMonth, monthNumberToName, monthNumbers } from "../lib/dates";
 import { useConfig } from "../lib/config";
 import { MoodSelector } from "./MoodSelector";
 
-const currentYear = getCurrentYearNumber();
-const currentMonth = getCurrentMonthNumber();
-
 export function CalendarList() {
+  const {
+    config: { currentYear, currentMonth },
+  } = useConfig();
   const [selectedItemId, setSelectedItemId] = useState(currentMonth);
   return (
     <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
