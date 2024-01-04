@@ -5,13 +5,18 @@ import {
   loadConfig,
   saveConfig,
 } from "./lib/config";
-import { getCurrentYearNumber, monthNumbers } from "./lib/dates";
+import {
+  getCurrentMonthNumber,
+  getCurrentYearNumber,
+  monthNumbers,
+} from "./lib/dates";
 import { Header } from "./components/Header";
 import { MoodRatingLegendItem } from "./components/MoodRatingLegendItem";
 import { MonthlyCalendar } from "./components/MonthlyCalendar";
 import { useEffect, useState } from "react";
 
-const year = getCurrentYearNumber();
+const currentYear = getCurrentYearNumber();
+const currentMonth = getCurrentMonthNumber();
 
 function App() {
   const [config, setConfig] = useState(() => loadConfig());
@@ -63,6 +68,8 @@ function App() {
     setConfig({ ...config, moodData: newData });
   }
 
+  const [activeMonthIndex, setActiveMonthIndex] = useState(currentMonth);
+
   return (
     <ConfigContext.Provider
       value={{
@@ -91,9 +98,11 @@ function App() {
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {monthNumbers.map((month) => (
             <MonthlyCalendar
-              key={`${year}-${month}`}
-              year={year}
+              key={`${currentYear}-${month}`}
+              year={currentYear}
               month={month}
+              isSelected={activeMonthIndex === month}
+              onClick={() => setActiveMonthIndex(month)}
             />
           ))}
         </div>

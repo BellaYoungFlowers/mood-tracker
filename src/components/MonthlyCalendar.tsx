@@ -6,6 +6,8 @@ import { MoodRatingPicker } from "./MoodRatingPicker";
 type MonthlyCalendarProps = {
   year: number;
   month: number;
+  isSelected: boolean;
+  onClick: () => void;
 };
 
 export function MonthlyCalendar(props: MonthlyCalendarProps) {
@@ -48,7 +50,7 @@ export function MonthlyCalendar(props: MonthlyCalendarProps) {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4" onClick={props.onClick}>
       <h3 className="text-xl font-semibold">
         {monthNumberToName(props.month)} {props.year}
       </h3>
@@ -59,7 +61,7 @@ export function MonthlyCalendar(props: MonthlyCalendarProps) {
           if (moodRating !== null) {
             bgColor = config.moodData[moodRating].color;
           }
-          const isActive = dayIndex === selectedDayIndex;
+          const isActive = props.isSelected && dayIndex === selectedDayIndex;
           const isActiveStyles =
             "bg-black text-white dark:bg-white dark:text-black";
 
@@ -77,17 +79,23 @@ export function MonthlyCalendar(props: MonthlyCalendarProps) {
           );
         })}
       </ol>
-      <div className="space-y-2">
-        <MoodRatingPicker open={ratingPickerOpen} onPickRating={onPickRating} />
-        {ratingPickerOpen && (
-          <button
-            className="font-semibold bg-red-600 text-white w-full py-2 lg:hover:scale-105 transition-all"
-            onClick={onClearRating}
-          >
-            Clear rating
-          </button>
-        )}
-      </div>
+
+      {props.isSelected && (
+        <div className="space-y-2">
+          <MoodRatingPicker
+            open={ratingPickerOpen}
+            onPickRating={onPickRating}
+          />
+          {ratingPickerOpen && (
+            <button
+              className="font-semibold bg-red-600 text-white w-full py-2 lg:hover:scale-105 transition-all"
+              onClick={onClearRating}
+            >
+              Clear rating
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 }

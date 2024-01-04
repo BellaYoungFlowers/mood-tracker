@@ -40,3 +40,7 @@ export const monthNumbers: readonly number[] = [
 export function getCurrentYearNumber() {
   return new Date().getFullYear();
 }
+
+export function getCurrentMonthNumber() {
+  return new Date().getMonth();
+}
