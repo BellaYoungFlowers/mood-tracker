@@ -1,4 +1,4 @@
-import { KeyboardEvent, useRef } from "react";
+import { type KeyboardEvent, useRef } from "react";
 import { useConfig } from "../lib/config";
 
 export function MoodColorSelector() {

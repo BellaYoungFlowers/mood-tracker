@@ -1,11 +1,11 @@
 import { createContext, useContext } from "react";
 import { getCurrentMonthNumber, getCurrentYearNumber } from "./dates";
 
-export type YearlyData = Record<number, Record<number, Record<number, number>>>;
+type YearlyData = Record<number, Record<number, Record<number, number>>>;
 
 type Mood = { color: string; name: string };
 
-export type MoodData = Array<Mood>;
+type MoodData = Array<Mood>;
 
 export type Config = {
   currentYear: number;

@@ -1,4 +1,4 @@
-import { KeyboardEvent, useState } from "react";
+import { type KeyboardEvent, useState } from "react";
 import { daysInMonth, monthNumberToName, monthNumbers } from "../lib/dates";
 import { useConfig } from "../lib/config";
 import { MoodSelector } from "./MoodSelector";

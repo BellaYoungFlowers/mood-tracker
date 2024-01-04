@@ -1,19 +1,13 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useState } from "react";
 import {
+  type Config,
   ConfigContext,
-  MoodData,
-  YearlyData,
   loadConfig,
   saveConfig,
 } from "../lib/config";
 
 export function ConfigProvider({ children }: { children: ReactNode }) {
   const [config, setConfig] = useState(() => loadConfig());
-
-  /* Save config whenever it changes */
-  useEffect(() => {
-    saveConfig(config);
-  }, [config]);
 
   /**
    *
@@ -28,33 +22,37 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     day: number,
     rating: number
   ) {
-    const newData: YearlyData = { ...config.yearlyData };
+    const newConfig: Config = structuredClone(config);
     if (!config.yearlyData[year]) {
-      newData[year] = {
+      newConfig.yearlyData[year] = {
         [month]: {},
       };
     }
     if (config.yearlyData[year] && !config.yearlyData[year][month]) {
-      newData[year][month] = {};
+      newConfig.yearlyData[year][month] = {};
     }
-    newData[year][month][day] = rating;
-    setConfig({ ...config, yearlyData: newData });
+    newConfig.yearlyData[year][month][day] = rating;
+    setConfig(newConfig);
+    saveConfig(newConfig);
   }
 
   function deleteConfigDayRating(year: number, month: number, day: number) {
-    const newData: YearlyData = { ...config.yearlyData };
+    const newConfig: Config = structuredClone(config);
     if (!config.yearlyData[year] || !config.yearlyData[year][month]) {
       return;
     }
-    delete newData[year][month][day];
-    setConfig({ ...config, yearlyData: newData });
+    delete newConfig.yearlyData[year][month][day];
+    setConfig(newConfig);
+    saveConfig(newConfig);
   }
 
   function updateConfigMoodColor(moodIndex: number, color: string) {
-    const newData: MoodData = config.moodData.map((data, i) =>
+    const newConfig: Config = structuredClone(config);
+    newConfig.moodData = config.moodData.map((data, i) =>
       i === moodIndex ? { ...data, color } : data
     );
-    setConfig({ ...config, moodData: newData });
+    setConfig(newConfig);
+    saveConfig(newConfig);
   }
 
   return (
