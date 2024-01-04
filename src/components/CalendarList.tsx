@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { KeyboardEvent, useState } from "react";
 import { daysInMonth, monthNumberToName, monthNumbers } from "../lib/dates";
 import { useConfig } from "../lib/config";
 import { MoodSelector } from "./MoodSelector";
@@ -18,6 +18,7 @@ export function CalendarList() {
           month={month}
           isSelected={selectedItemId === month}
           onClick={() => setSelectedItemId(month)}
+          onPressEnter={() => setSelectedItemId(month)}
         />
       ))}
     </div>
@@ -29,6 +30,7 @@ type CalendarItemProps = {
   month: number;
   isSelected: boolean;
   onClick: () => void;
+  onPressEnter: () => void;
 };
 
 function CalendarItem(props: CalendarItemProps) {
@@ -55,6 +57,12 @@ function CalendarItem(props: CalendarItemProps) {
     setMoodSelectorOpen(true);
   }
 
+  function onPressEnter(e: KeyboardEvent<HTMLDivElement>) {
+    if (e.key === "Enter") {
+      props.onPressEnter();
+    }
+  }
+
   function clearSelectedCalendarDay() {
     setSelectedDayIndex(-1);
     setMoodSelectorOpen(false);
@@ -73,7 +81,12 @@ function CalendarItem(props: CalendarItemProps) {
   const title = `${monthNumberToName(props.month)} ${props.year}`;
 
   return (
-    <div className="space-y-4" onClick={props.onClick}>
+    <div
+      className="space-y-4"
+      onClick={props.onClick}
+      tabIndex={0}
+      onKeyDown={(e) => onPressEnter(e)}
+    >
       <h3 className="text-xl font-semibold">{title}</h3>
       <ol className="grid grid-cols-7 gap-2">
         {dayNumberIndexes.map((dayIndex) => {
@@ -94,6 +107,7 @@ function CalendarItem(props: CalendarItemProps) {
                 isActive && isActiveStyles
               }`}
               style={{ backgroundColor: moodColor }}
+              tabIndex={0}
             >
               <span>{dayIndex + 1}</span>
             </li>

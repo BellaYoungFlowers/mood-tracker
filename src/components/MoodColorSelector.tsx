@@ -1,3 +1,4 @@
+import { KeyboardEvent, useRef } from "react";
 import { useConfig } from "../lib/config";
 
 export function MoodColorSelector() {
@@ -28,16 +29,28 @@ type MoodColorSelectorItemProps = {
 
 function MoodColorSelectorItem(props: MoodColorSelectorItemProps) {
   const { config } = useConfig();
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const { color: moodColor, name: moodName } = config.moodData[props.rating];
+
+  function onPressEnter(e: KeyboardEvent<HTMLLabelElement>) {
+    if (!inputRef.current) {
+      return;
+    }
+    if (e.key === "Enter") {
+      inputRef.current.click();
+    }
+  }
 
   return (
     <label
       className="flex-1 rounded p-1 text-center font-semibold transition-all lg:px-4 lg:py-2 lg:hover:scale-105 lg:hover:cursor-pointer"
       style={{ backgroundColor: moodColor }}
+      tabIndex={0}
+      onKeyDown={(e) => onPressEnter(e)}
     >
       <span>{moodName}</span>
       <input
-        key={props.rating}
+        ref={inputRef}
         type="color"
         className="hidden"
         value={moodColor}
