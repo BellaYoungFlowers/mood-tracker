@@ -32,7 +32,7 @@ function MoodColorSelectorItem(props: MoodColorSelectorItemProps) {
 
   return (
     <label
-      className="flex-1 border-none p-1 text-center font-semibold transition-all lg:px-4 lg:py-2 lg:hover:scale-105 lg:hover:cursor-pointer"
+      className="flex-1 rounded p-1 text-center font-semibold transition-all lg:px-4 lg:py-2 lg:hover:scale-105 lg:hover:cursor-pointer"
       style={{ backgroundColor: moodColor }}
     >
       <span>{moodName}</span>

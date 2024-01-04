@@ -8,6 +8,7 @@ export function CalendarList() {
     config: { currentYear, currentMonth },
   } = useConfig();
   const [selectedItemId, setSelectedItemId] = useState(currentMonth);
+
   return (
     <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
       {monthNumbers.map((month) => (
@@ -89,7 +90,7 @@ function CalendarItem(props: CalendarItemProps) {
             <li
               key={dayIndex}
               onClick={() => onClickCalendarDay(dayIndex)}
-              className={`aspect-square p-1 font-bold lg:hover:scale-105 lg:hover:cursor-pointer lg:hover:bg-black lg:hover:text-white dark:lg:hover:bg-white dark:lg:hover:text-black ${
+              className={`aspect-square rounded p-1 font-bold lg:hover:scale-105 lg:hover:cursor-pointer lg:hover:bg-black lg:hover:text-white dark:lg:hover:bg-white dark:lg:hover:text-black ${
                 isActive && isActiveStyles
               }`}
               style={{ backgroundColor: moodColor }}
