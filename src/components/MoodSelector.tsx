@@ -42,7 +42,7 @@ function MoodSelectorItem(props: MoodSelectorItemProps) {
     <div
       key={props.rating}
       onClick={props.onClick}
-      className="flex-1 py-2 px-1 text-center font-semibold lg:cursor-pointer lg:hover:scale-105 transition-all"
+      className="flex-1 px-1 py-2 text-center font-semibold transition-all lg:cursor-pointer lg:hover:scale-105"
       style={{ backgroundColor: moodColor }}
     >
       {moodName}
@@ -57,7 +57,7 @@ type MoodResetButtonProps = {
 function MoodResetButton(props: MoodResetButtonProps) {
   return (
     <button
-      className="font-semibold bg-red-600 text-white w-full py-2 lg:hover:scale-105 transition-all"
+      className="w-full bg-red-600 py-2 font-semibold text-white transition-all lg:hover:scale-105"
       onClick={props.onClick}
     >
       Reset rating

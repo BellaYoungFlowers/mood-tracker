@@ -4,7 +4,7 @@ export function MoodColorSelector() {
   const { config, updateConfigMoodColor } = useConfig();
 
   return (
-    <div className="font-semibold space-y-4">
+    <div className="space-y-4 font-semibold">
       <h2 className="text-2xl">Edit Colors</h2>
       <div className="flex items-center gap-2 text-center">
         {[...Array(config.moodData.length).keys()].map((rating, index) => (
@@ -32,7 +32,7 @@ function MoodColorSelectorItem(props: MoodColorSelectorItemProps) {
 
   return (
     <label
-      className="space-x-2 flex-1 font-semibold text-center py-2 px-1 lg:px-4 border-none lg:hover:cursor-pointer"
+      className="flex-1 space-x-2 border-none px-1 py-2 text-center font-semibold lg:px-4 lg:hover:cursor-pointer"
       style={{ backgroundColor: moodColor }}
     >
       <span>{moodName}</span>

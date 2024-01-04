@@ -95,7 +95,7 @@ function CalendarItem(props: CalendarItemProps) {
             <li
               key={dayIndex}
               onClick={() => onClickCalendarDay(dayIndex)}
-              className={`aspect-square font-bold p-1 lg:hover:cursor-pointer lg:hover:scale-105 dark:lg:hover:bg-white dark:lg:hover:text-black lg:hover:bg-black lg:hover:text-white ${
+              className={`aspect-square p-1 font-bold lg:hover:scale-105 lg:hover:cursor-pointer lg:hover:bg-black lg:hover:text-white dark:lg:hover:bg-white dark:lg:hover:text-black ${
                 isActive && isActiveStyles
               }`}
               style={{ backgroundColor: moodColor }}

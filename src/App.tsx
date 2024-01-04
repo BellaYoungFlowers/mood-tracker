@@ -6,7 +6,7 @@ import { CalendarList } from "./components/CalendarList";
 function App() {
   return (
     <ConfigProvider>
-      <main className="bg-white dark:bg-black text-black dark:text-white space-y-8 p-8 lg:p-16">
+      <main className="space-y-8 bg-white p-8 text-black dark:bg-black dark:text-white lg:p-16">
         <MainTitle />
         <MoodColorSelector />
         <CalendarList />

@@ -1,7 +1,7 @@
 export function MainTitle() {
   return (
     <>
-      <h1 className="text-4xl font-bold mb-2">Mood Tracker</h1>
+      <h1 className="mb-2 text-4xl font-bold">Mood Tracker</h1>
       <small>
         Made by{" "}
         <a
