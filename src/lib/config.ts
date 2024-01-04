@@ -62,13 +62,16 @@ export function loadConfig(): Config {
 
 type ConfigContext = {
   config: Config;
+  /** Inserts or updates the mood rating number for a given year, month, and day. */
   upsertConfigDayRating: (
     year: number,
     month: number,
     day: number,
     rating: number
   ) => void;
+  /** Clears the mood rating number for a given year, month, and day. */
   deleteConfigDayRating: (year: number, month: number, day: number) => void;
+  /** Updates the mood rating color for the mood given by moodIndex. */
   updateConfigMoodColor: (moodIndex: number, hexColor: string) => void;
 };
 

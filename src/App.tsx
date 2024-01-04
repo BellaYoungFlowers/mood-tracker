@@ -1,113 +1,17 @@
-import {
-  ConfigContext,
-  MoodData,
-  YearlyData,
-  loadConfig,
-  saveConfig,
-} from "./lib/config";
-import {
-  getCurrentMonthNumber,
-  getCurrentYearNumber,
-  monthNumbers,
-} from "./lib/dates";
-import { Header } from "./components/Header";
-import { MoodRatingLegendItem } from "./components/MoodRatingLegendItem";
-import { MonthlyCalendar } from "./components/MonthlyCalendar";
-import { useEffect, useState } from "react";
-
-const currentYear = getCurrentYearNumber();
-const currentMonth = getCurrentMonthNumber();
+import { ConfigProvider } from "./components/ConfigProvider";
+import { MainTitle } from "./components/MainTitle";
+import { MoodColorSelector } from "./components/MoodColorSelector";
+import { CalendarList } from "./components/CalendarList";
 
 function App() {
-  const [config, setConfig] = useState(() => loadConfig());
-
-  /* Save config whenever it changes */
-  useEffect(() => {
-    saveConfig(config);
-  }, [config]);
-
-  /**
-   *
-   * @param year Year number
-   * @param month 0-indexed month from 0 (January) to 11 (December)
-   * @param day 0-index day of month
-   * @param rating Mood rating
-   */
-  function upsertConfigDayRating(
-    year: number,
-    month: number,
-    day: number,
-    rating: number
-  ) {
-    const newData: YearlyData = { ...config.yearlyData };
-    if (!config.yearlyData[year]) {
-      newData[year] = {
-        [month]: {},
-      };
-    }
-    if (config.yearlyData[year] && !config.yearlyData[year][month]) {
-      newData[year][month] = {};
-    }
-    newData[year][month][day] = rating;
-    setConfig({ ...config, yearlyData: newData });
-  }
-
-  function deleteConfigDayRating(year: number, month: number, day: number) {
-    const newData: YearlyData = { ...config.yearlyData };
-    if (!config.yearlyData[year] || !config.yearlyData[year][month]) {
-      return;
-    }
-    delete newData[year][month][day];
-    setConfig({ ...config, yearlyData: newData });
-  }
-
-  function updateConfigMoodColor(moodIndex: number, color: string) {
-    const newData: MoodData = config.moodData.map((data, i) =>
-      i === moodIndex ? { ...data, color } : data
-    );
-    setConfig({ ...config, moodData: newData });
-  }
-
-  const [activeMonthIndex, setActiveMonthIndex] = useState(currentMonth);
-
   return (
-    <ConfigContext.Provider
-      value={{
-        config,
-        upsertConfigDayRating,
-        deleteConfigDayRating,
-        updateConfigMoodColor,
-      }}
-    >
+    <ConfigProvider>
       <main className="bg-white dark:bg-black text-black dark:text-white space-y-8 p-8 lg:p-16">
-        <Header />
-        <div className="font-semibold space-y-4">
-          <h2 className="text-2xl">Edit Colors</h2>
-          <div className="flex items-center gap-2 text-center">
-            {[...Array(config.moodData.length).keys()].map((rating, index) => (
-              <MoodRatingLegendItem
-                key={rating}
-                rating={rating}
-                onChangeColor={(color: string) =>
-                  updateConfigMoodColor(index, color)
-                }
-              />
-            ))}
-          </div>
-        </div>
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {monthNumbers.map((month) => (
-            <MonthlyCalendar
-              key={`${currentYear}-${month}`}
-              year={currentYear}
-              month={month}
-              isSelected={activeMonthIndex === month}
-              onClick={() => setActiveMonthIndex(month)}
-            />
-          ))}
-        </div>
+        <MainTitle />
+        <MoodColorSelector />
+        <CalendarList />
       </main>
-    </ConfigContext.Provider>
+    </ConfigProvider>
   );
 }
 

@@ -1,4 +1,4 @@
-export function Header() {
+export function MainTitle() {
   return (
     <>
       <h1 className="text-4xl font-bold mb-2">Mood Tracker</h1>
