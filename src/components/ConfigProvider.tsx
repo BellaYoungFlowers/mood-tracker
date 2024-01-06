@@ -9,13 +9,6 @@ import {
 export function ConfigProvider({ children }: { children: ReactNode }) {
   const [config, setConfig] = useState(() => loadConfig());
 
-  /**
-   *
-   * @param year Year number
-   * @param month 0-indexed month from 0 (January) to 11 (December)
-   * @param day 0-index day of month
-   * @param rating Mood rating
-   */
   function upsertConfigDayRating(
     year: number,
     month: number,
