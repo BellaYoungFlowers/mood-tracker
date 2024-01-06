@@ -7,7 +7,7 @@ export function MoodColorSelector() {
   return (
     <div className="space-y-4 font-semibold">
       <h2 className="text-2xl">Edit Colors</h2>
-      <div className="flex items-center gap-2 text-center">
+      <div className="flex flex-col gap-2 text-center sm:flex-row sm:items-center">
         {[...Array(config.moodData.length).keys()].map((rating, index) => (
           <MoodColorSelectorItem
             key={rating}
