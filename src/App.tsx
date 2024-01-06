@@ -7,7 +7,7 @@ import { Stats } from "./components/Stats";
 function App() {
   return (
     <ConfigProvider>
-      <main className="space-y-8 bg-white p-8 text-black dark:bg-black dark:text-white lg:p-16">
+      <main className="space-y-8 bg-black p-8 text-white lg:p-16">
         <MainTitle />
         <Stats />
         <MoodColorSelector />

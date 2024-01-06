@@ -96,17 +96,16 @@ function CalendarItem(props: CalendarItemProps) {
             moodColor = config.moodData[moodRatingNumber].color;
           }
           const isActive = props.isSelected && dayIndex === selectedDayIndex;
-          const isActiveStyles =
-            "bg-black text-white dark:bg-white dark:text-black";
+          const isActiveStyles = "text-black";
 
           return (
             <li
               key={dayIndex}
               onClick={() => onClickCalendarDay(dayIndex)}
-              className={`aspect-square rounded p-1 font-bold lg:hover:scale-105 lg:hover:cursor-pointer lg:hover:bg-black lg:hover:text-white dark:lg:hover:bg-white dark:lg:hover:text-black ${
+              className={`aspect-square rounded p-1 font-bold lg:hover:scale-105 lg:hover:cursor-pointer lg:hover:bg-white lg:hover:text-black ${
                 isActive && isActiveStyles
               }`}
-              style={{ backgroundColor: moodColor }}
+              style={{ backgroundColor: isActive ? "#ffffff" : moodColor }}
               tabIndex={0}
             >
               <span>{dayIndex + 1}</span>
